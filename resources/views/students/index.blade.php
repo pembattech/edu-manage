@@ -2,7 +2,7 @@
 
     @if (session('success'))
         <div id="toast-success"
-            class="bg-gray-100 border text-black fixed top-4 flex items-center w-full max-w-xs p-2 rounded-lg shadow transform -translate-x-full transition-transform duration-500 ease-in-out"
+            class="bg-gray-100 border text-black fixed top-4 left-4 flex items-center w-full max-w-xs p-2 rounded-lg shadow transform -translate-x-full transition-transform duration-500 ease-in-out"
             role="alert">
             <div
                 class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg">
@@ -13,18 +13,28 @@
                 </svg>
                 <span class="sr-only">Check icon</span>
             </div>
-            <div class="ms-3 text-base font-normal">{{ session('success') }}</div>
+            <div class="ml-3 text-base font-normal">{{ session('success') }}</div>
         </div>
         <script>
             document.addEventListener("DOMContentLoaded", function() {
                 const toastSuccess = document.getElementById('toast-success');
-                toastSuccess.classList.remove('-translate-x-full');
-                toastSuccess.classList.add('translate-x-0');
+
+                // Show the toast by sliding it in
+                setTimeout(() => {
+                    toastSuccess.classList.remove('-translate-x-full');
+                    toastSuccess.classList.add('translate-x-0');
+                }, 100); // Small delay to ensure DOM is ready for transition
 
                 // Slide out after 4 seconds
                 setTimeout(() => {
+                    toastSuccess.classList.remove('translate-x-0');
                     toastSuccess.classList.add('-translate-x-full');
                 }, 4000);
+
+                // Hide the toast completely after the slide-out animation
+                setTimeout(() => {
+                    toastSuccess.style.display = 'none';
+                }, 4500); // This should be longer than the slide-out duration
             });
         </script>
     @endif
@@ -63,7 +73,7 @@
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($students as $student)
-                                <tr class="bg-red-900 border-b">
+                                <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $loop->iteration }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $student->fullname }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -75,39 +85,15 @@
                                             Other
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $student->address }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">{{ Str::limit($student->address, $limit = 20, $end = ' ...') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ $student->contact_number }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap">
 
-                                        <div class="grid gap-2 sm:grid-cols-3 items-center">
-                                            <div class="flex justify-center">
-                                                <a href="{{ route('students.show', $student) }}"
-                                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">View</a>
-                                            </div>
-                                        
-                                            <div class="flex justify-center">
-                                                <a href="{{ route('students.edit', $student) }}"
-                                                    class="py-2.5 px-5 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-4 focus:ring-gray-100">Edit</a>
-                                            </div>
-                                        
-                                            <div class="flex justify-center">
-                                                <form action="{{ route('students.destroy', $student) }}" method="POST" onsubmit="return confirmDelete()">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit"
-                                                        class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                                                        Delete
-                                                    </button>
-                                                </form>
-                                            </div>
+                                        <div class="flex items-center">
+                                            <a href="{{ route('students.show', $student) }}"
+                                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">View</a>
                                         </div>
-                                        
-                                        <script>
-                                            function confirmDelete() {
-                                                return confirm('Are you sure you want to delete this student? This action cannot be undone.');
-                                            }
-                                        </script>
-                                        
+
                                     </td>
                                 </tr>
                             @endforeach

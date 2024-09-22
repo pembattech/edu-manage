@@ -1,16 +1,4 @@
-<!-- resources/views/students/create.blade.php -->
-
 <x-app-layout>
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
     <div class="p-4 max-w-5xl mx-auto">
 
@@ -18,8 +6,22 @@
             <h1 class="bg-gray-100 w-full text-3xl p-2 mb-2">Add New Student</h1>
 
             <div class="p-2">
-                <form action="{{ route('students.store') }}" method="POST">
+                <form action="{{ route('students.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
+
+                    <div class="py-2">
+                        <label for="profile_picture">Profile Picture</label>
+                        <input type="file" name="profile_picture" id="profile_picture"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            onchange="previewImage(event)">
+                        @error('profile_picture')
+                            <div class="text-base text-red-600">{{ $message }}</div>
+                        @enderror
+
+                        <div id="imagePreview" class="mt-2 object-cover hidden">
+                            <img src="" alt="Profile Picture" class="w-24 h-24 rounded-full">
+                        </div>
+                    </div>
 
                     <div class="py-2">
                         <label for="fullname">Full Name</label>
@@ -27,7 +29,7 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             value="{{ old('fullname') }}" required>
                         @error('fullname')
-                            <div class="text-danger">{{ $message }}</div>
+                            <div class="text-base text-red-600">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -37,7 +39,7 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             value="{{ old('email') }}" required>
                         @error('email')
-                            <div class="text-danger">{{ $message }}</div>
+                            <div class="text-base text-red-600">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -48,7 +50,7 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ old('dob') }}" required>
                             @error('dob')
-                                <div class="text-danger">{{ $message }}</div>
+                                <div class="text-base text-red-600">{{ $message }}</div>
                             @enderror
                         </div>
 
@@ -67,7 +69,7 @@
                                 </option>
                             </select>
                             @error('marital_status')
-                                <div class="text-danger">{{ $message }}</div>
+                                <div class="text-base text-red-600">{{ $message }}</div>
                             @enderror
                         </div>
 
@@ -81,7 +83,7 @@
                                 <option value="O" {{ old('gender') == 'O' ? 'selected' : '' }}>Other</option>
                             </select>
                             @error('gender')
-                                <div class="text-danger">{{ $message }}</div>
+                                <div class="text-base text-red-600">{{ $message }}</div>
                             @enderror
                         </div>
 
@@ -93,7 +95,7 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             rows="3" required>{{ old('address') }}</textarea>
                         @error('address')
-                            <div class="text-danger">{{ $message }}</div>
+                            <div class="text-base text-red-600">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -105,7 +107,7 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ old('contact_number') }}" required>
                             @error('contact_number')
-                                <div class="text-danger">{{ $message }}</div>
+                                <div class="text-base text-red-600">{{ $message }}</div>
                             @enderror
                         </div>
 
@@ -115,7 +117,7 @@
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 value="{{ old('present_qualification') }}" required>
                             @error('present_qualification')
-                                <div class="text-danger">{{ $message }}</div>
+                                <div class="text-base text-red-600">{{ $message }}</div>
                             @enderror
                         </div>
 
@@ -128,7 +130,7 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             value="{{ old('father_name') }}" required>
                         @error('father_name')
-                            <div class="text-danger">{{ $message }}</div>
+                            <div class="text-base text-red-600">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -138,7 +140,7 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             value="{{ old('mother_name') }}" required>
                         @error('mother_name')
-                            <div class="text-danger">{{ $message }}</div>
+                            <div class="text-base text-red-600">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -148,22 +150,22 @@
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             value="{{ old('profession') }}" required>
                         @error('profession')
-                            <div class="text-danger">{{ $message }}</div>
+                            <div class="text-base text-red-600">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="grid gap-4 sm:grid-cols-2 sm:gap-6">
-                    <div class="py-2">
-                        <label for="parents_phone_number">Parents' Phone Number</label>
-                        <input type="text" name="parents_phone_number" id="parents_phone_number"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            value="{{ old('parents_phone_number') }}" required>
-                        @error('parents_phone_number')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
+                        <div class="py-2">
+                            <label for="parents_phone_number">Parents' Phone Number</label>
+                            <input type="text" name="parents_phone_number" id="parents_phone_number"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                value="{{ old('parents_phone_number') }}" required>
+                            @error('parents_phone_number')
+                                <div class="text-base text-red-600">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                    {{-- <div class="py-2">
+                        {{-- <div class="py-2">
             <label for="computer_course">Computer Course</label>
             <select name="computer_course" id="computer_course" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
                 <option value="CFB" {{ old('computer_course') == 'CFB' ? 'selected' : '' }}>CFB</option>
@@ -175,7 +177,7 @@
                 <option value="P" {{ old('computer_course') == 'P' ? 'selected' : '' }}>P</option>
             </select>
             @error('computer_course')
-                <div class="text-danger">{{ $message }}</div>
+                <div class="text-base text-red-600">{{ $message }}</div>
             @enderror
         </div>
 
@@ -189,7 +191,7 @@
                 <option value="TU" {{ old('language_course') == 'TU' ? 'selected' : '' }}>Turkish</option>
             </select>
             @error('language_course')
-                <div class="text-danger">{{ $message }}</div>
+                <div class="text-base text-red-600">{{ $message }}</div>
             @enderror
         </div>
 
@@ -202,21 +204,21 @@
             </select>
             @error('course_level')
 
-                <div class="text-danger">{{ $message }}</div>
+                <div class="text-base text-red-600">{{ $message }}</div>
             @enderror
         </div> --}}
 
 
-                    <div class="py-2">
-                        <label for="enrollment_date">Enrollment Date</label>
-                        <input type="date" name="enrollment_date" id="enrollment_date"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                            value="{{ old('enrollment_date') }}" required>
-                        @error('enrollment_date')
-                            <div class="text-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-                    
+                        <div class="py-2">
+                            <label for="enrollment_date">Enrollment Date</label>
+                            <input type="date" name="enrollment_date" id="enrollment_date"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                value="{{ old('enrollment_date') }}" required>
+                            @error('enrollment_date')
+                                <div class="text-base text-red-600">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                     </div>
 
                     <div class="pt-2">
@@ -228,5 +230,16 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                document.getElementById('imagePreview').style.display = 'block';
+                document.getElementById('imagePreview').getElementsByTagName('img')[0].src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 
 </x-app-layout>

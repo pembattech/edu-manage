@@ -11,6 +11,8 @@ Route::get('/', function () {
 Route::redirect('/', '/students')->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+
+    route::get('/students/{student}/print', [StudentController::class, 'printStudentDetails'])->name('students.print');
     Route::resource('students', StudentController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
