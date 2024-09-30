@@ -2,7 +2,7 @@
     <div class="p-4 max-w-5xl mx-auto">
 
         <div class="rounded-md border">
-            <h1 class="bg-gray-100 w-full text-3xl p-2 mb-2">Edit Student</h1>
+            <h1 class="bg-gray-100 w-full rounded-t-md text-3xl p-4 mb-2">Edit Student</h1>
 
             <div class="p-2">
 

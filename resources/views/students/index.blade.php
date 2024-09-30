@@ -41,7 +41,7 @@
 
     <div class="p-4 max-w-5xl mx-auto">
         <div class="border rounded-md">
-            <h1 class="bg-gray-100 w-full text-3xl p-2 mb-4">Student List</h1>
+            <h1 class="bg-gray-100 w-full rounded-t-md text-3xl p-4 mb-4">Student List</h1>
             <div class="p-2">
                 <a href="{{ route('students.create') }}"
                     class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-4">Add
@@ -52,31 +52,62 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     #</th>
                                 <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    Profile Picture</th>
+                                <th
+                                    class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Full Name</th>
                                 <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Gender</th>
                                 <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Address</th>
                                 <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Contact Number</th>
                                 <th
-                                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Actions</th>
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
                             @foreach ($students as $student)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $loop->iteration }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $student->fullname }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-2 py-3 whitespace-nowrap">{{ $loop->iteration }}</td>
+                                    <td class="px-2 py-3 whitespace-nowrap">
+
+
+                                        @if (!$student->profile_picture)
+                                            @php
+                                                // Split the full name by spaces
+                                                $words = explode(' ', $student->fullname);
+
+                                                // Initialize an empty string to store the initials
+                                                $initials = '';
+
+                                                // Loop through each word and extract the first letter
+                                                foreach ($words as $word) {
+                                                    $initials .= strtoupper($word[0]);
+                                                }
+                                            @endphp
+                                            <div
+                                                class="h-20 w-20 flex justify-center items-center bg-gray-300 text-gray-700 text-2xl font-bold rounded-full">
+                                                {{ $initials }}
+                                            </div>
+                                        @else
+                                            <img class="h-20 w-20 rounded-full object-cover"
+                                                src="{{ asset('assets/student_profile_pictures/' . $student->profile_picture) }}"
+                                                alt="Profile Picture">
+                                        @endif
+
+                                    </td>
+                                    <td class="px-2 py-3 whitespace-nowrap">
+                                        {{ Str::limit($student->fullname, $limit = 20, $end = ' ...') }}</td>
+                                    <td class="px-2 py-3 whitespace-nowrap">
                                         @if ($student->gender == 'M')
                                             Male
                                         @elseif($student->gender == 'F')
@@ -85,9 +116,10 @@
                                             Other
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ Str::limit($student->address, $limit = 20, $end = ' ...') }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">{{ $student->contact_number }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-2 py-3 whitespace-nowrap">
+                                        {{ Str::limit($student->address, $limit = 30, $end = ' ...') }}</td>
+                                    <td class="px-2 py-3 whitespace-nowrap">{{ $student->contact_number }}</td>
+                                    <td class="px-2 py-3 whitespace-nowrap">
 
                                         <div class="flex items-center">
                                             <a href="{{ route('students.show', $student) }}"
@@ -109,12 +141,25 @@
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.3/js/jquery.dataTables.min.js"></script>
 
-    <!-- Initialize DataTable -->
+
     <script>
         $(document).ready(function() {
             $('#student-table').DataTable({
-                responsive: true // Enable responsiveness
+                responsive: true,
+                columnDefs: [
+                    {
+                        targets: [1], // Disable sorting for the second column (index 1)
+                        orderable: false, // Disable sorting
+                    },
+                    {
+                        targets: [6], // Disable sorting for the seventh column (index 6)
+                        orderable: false, // Disable sorting
+                        searchable: false // Disable search
+                    }
+                ]
             });
         });
     </script>
+    
+
 </x-app-layout>

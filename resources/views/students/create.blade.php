@@ -3,7 +3,7 @@
     <div class="p-4 max-w-5xl mx-auto">
 
         <div class="rounded-md border">
-            <h1 class="bg-gray-100 w-full text-3xl p-2 mb-2">Add New Student</h1>
+            <h1 class="bg-gray-100 w-full rounded-t-md text-3xl p-4 mb-2">Add New Student</h1>
 
             <div class="p-2">
                 <form action="{{ route('students.store') }}" method="POST" enctype="multipart/form-data">
@@ -123,6 +123,63 @@
 
                     </div>
 
+                    <div class="py-2">
+                    <p>Select Computer Course</p>
+                    <ul
+                        class="items-center w-full text-sm font-medium text-gray-900 bg-gray-50 border border-gray-200 rounded-lg sm:flex">
+                        <!-- Computer Courses -->
+                        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                            <div class="flex items-center ps-3">
+                                <input id="programming-checkbox" type="checkbox" name="courses[]" value="programming"
+                                    class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                <label for="programming-checkbox"
+                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Programming</label>
+                            </div>
+                        </li>
+                        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                            <div class="flex items-center ps-3">
+                                <input id="database-checkbox" type="checkbox" name="courses[]" value="database"
+                                    class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                <label for="database-checkbox"
+                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Database</label>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+
+                    <div class="py-2">
+                        <p>Select Language Class</p>
+                        <ul
+                            class="items-center w-full text-sm font-medium text-gray-900 bg-gray-50 border border-gray-200 rounded-lg sm:flex">
+
+                            <!-- Language Courses -->
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="english-checkbox" type="checkbox" name="courses[]" value="english"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="english-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">English</label>
+                                </div>
+                            </li>
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="japanese-checkbox" type="checkbox" name="courses[]" value="japanese"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="japanese-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Japanese</label>
+                                </div>
+                            </li>
+                            <li class="w-full">
+                                <div class="flex items-center ps-3">
+                                    <input id="korean-checkbox" type="checkbox" name="courses[]" value="korean"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="korean-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Korean</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
 
                     <div class="py-2">
                         <label for="father_name">Father's Name</label>
@@ -164,50 +221,6 @@
                                 <div class="text-base text-red-600">{{ $message }}</div>
                             @enderror
                         </div>
-
-                        {{-- <div class="py-2">
-            <label for="computer_course">Computer Course</label>
-            <select name="computer_course" id="computer_course" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
-                <option value="CFB" {{ old('computer_course') == 'CFB' ? 'selected' : '' }}>CFB</option>
-                <option value="DCO" {{ old('computer_course') == 'DCO' ? 'selected' : '' }}>DCO</option>
-                <option value="DGD" {{ old('computer_course') == 'DGD' ? 'selected' : '' }}>DGD</option>
-                <option value="OP" {{ old('computer_course') == 'OP' ? 'selected' : '' }}>OP</option>
-                <option value="WD" {{ old('computer_course') == 'WD' ? 'selected' : '' }}>WD</option>
-                <option value="CH" {{ old('computer_course') == 'CH' ? 'selected' : '' }}>CH</option>
-                <option value="P" {{ old('computer_course') == 'P' ? 'selected' : '' }}>P</option>
-            </select>
-            @error('computer_course')
-                <div class="text-base text-red-600">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="py-2">
-            <label for="language_course">Language Course</label>
-            <select name="language_course" id="language_course" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
-                <option value="KR" {{ old('language_course') == 'KR' ? 'selected' : '' }}>Korean</option>
-                <option value="EN" {{ old('language_course') == 'EN' ? 'selected' : '' }}>English</option>
-                <option value="JP" {{ old('language_course') == 'JP' ? 'selected' : '' }}>Japanese</option>
-                <option value="HE" {{ old('language_course') == 'HE' ? 'selected' : '' }}>Hebrew</option>
-                <option value="TU" {{ old('language_course') == 'TU' ? 'selected' : '' }}>Turkish</option>
-            </select>
-            @error('language_course')
-                <div class="text-base text-red-600">{{ $message }}</div>
-            @enderror
-        </div>
-
-        <div class="py-2">
-            <label for="course_level">Course Level</label>
-            <select name="course_level" id="course_level" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
-                <option value="B" {{ old('course_level') == 'B' ? 'selected' : '' }}>Beginner</option>
-                <option value="I" {{ old('course_level') == 'I' ? 'selected' : '' }}>Intermediate</option>
-                <option value="A" {{ old('course_level') == 'A' ? 'selected' : '' }}>Advanced</option>
-            </select>
-            @error('course_level')
-
-                <div class="text-base text-red-600">{{ $message }}</div>
-            @enderror
-        </div> --}}
-
 
                         <div class="py-2">
                             <label for="enrollment_date">Enrollment Date</label>

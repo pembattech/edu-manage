@@ -155,46 +155,56 @@ class StudentController extends Controller
 
     public function printStudentDetails(Student $student)
     {
-        // Fetch the image from the public path
-        $imagePath = public_path('assets/student_profile_pictures/' . $student->profile_picture);
-        $imageType = pathinfo($imagePath, PATHINFO_EXTENSION);
-        $imageData = file_get_contents($imagePath);
-        $base64Image = 'data:image/' . $imageType . ';base64,' . base64_encode($imageData);
+        // Initialize the base64Image variable as an empty string
+        $base64Image = '';
+
+        // Check if the profile picture exists
+        if ($student->profile_picture && file_exists(public_path('assets/student_profile_pictures/' . $student->profile_picture))) {
+            // Fetch the image from the public path
+            $imagePath = public_path('assets/student_profile_pictures/' . $student->profile_picture);
+            $imageType = pathinfo($imagePath, PATHINFO_EXTENSION);
+            $imageData = file_get_contents($imagePath);
+            $base64Image = 'data:image/' . $imageType . ';base64,' . base64_encode($imageData);
+        }
 
         // Prepare the HTML content with the embedded base64 image and margin CSS
         $html = '
-            <div style="margin: 0 0.5in;">
-                <div>
-                    <h1 style="background-color: #f3f4f6; width: 100%; font-size: 1.875rem; padding: 8px; margin-bottom: 16px; text-align: center;">
-                        Student Details
-                    </h1>
+        <div style="margin: 0 0.5in;">
+            <div>
+                <h1 style="background-color: #f3f4f6; width: 100%; font-size: 1.875rem; padding: 8px; margin-bottom: 16px; text-align: center;">
+                    Student Details
+                </h1>
 
-                    <div style="padding-left: 4px; padding-right: 4px;">
-                        <!-- Profile Picture -->
-                        <div style="width: 12rem; height: 8rem;">
-                                <img style="width: 100%; height: auto;" 
-                                    src="' . $base64Image . '" alt="Profile Picture">
-                        </div>
+                <div style="display: flex; padding-left: 4px; padding-right: 4px;">
+                    <!-- Profile Picture -->';
 
-                        <div>
-                            <ul style="list-style: none; padding-left: 0;">
-                                <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Full Name:</strong> ' . $student->fullname . '</li>
-                                <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Date of Birth:</strong> ' . $student->dob . '</li>
-                                <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Gender:</strong> ' . ($student->gender == "M" ? "Male" : ($student->gender == "F" ? "Female" : "Other")) . '</li>
-                                <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Address:</strong> ' . $student->address . '</li>
-                                <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Contact Number:</strong> ' . $student->contact_number . '</li>
-                                <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Email:</strong> ' . $student->email . '</li>
-                                <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Present Qualification:</strong> ' . $student->present_qualification . '</li>
-                                <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Father\'s Name:</strong> ' . $student->father_name . '</li>
-                                <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Mother\'s Name:</strong> ' . $student->mother_name . '</li>
-                                <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Profession:</strong> ' . $student->profession . '</li>
-                                <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Parents\' Phone Number:</strong> ' . $student->parents_phone_number . '</li>
-                                <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Enrollment Date:</strong> ' . $student->enrollment_date . '</li>
-                            </ul>
-                        </div>
+                if ($base64Image) {
+                    $html .= '
+                    <div style="width: 12rem; height: auto; flex-shrink: 0; margin-left: 16px;">
+                        <img style="width: 100%; height: auto;" src="' . $base64Image . '" alt="Profile Picture">
+                    </div>';
+                }
+
+                $html .= '
+                    <div style="flex-grow: 1;">
+                        <ul style="list-style: none; padding-left: 0;">
+                            <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Full Name:</strong> ' . $student->fullname . '</li>
+                            <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Date of Birth:</strong> ' . $student->dob . '</li>
+                            <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Gender:</strong> ' . ($student->gender == "M" ? "Male" : ($student->gender == "F" ? "Female" : "Other")) . '</li>
+                            <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Address:</strong> ' . $student->address . '</li>
+                            <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Contact Number:</strong> ' . $student->contact_number . '</li>
+                            <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Email:</strong> ' . $student->email . '</li>
+                            <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Present Qualification:</strong> ' . $student->present_qualification . '</li>
+                            <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Father\'s Name:</strong> ' . $student->father_name . '</li>
+                            <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Mother\'s Name:</strong> ' . $student->mother_name . '</li>
+                            <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Profession:</strong> ' . $student->profession . '</li>
+                            <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Parents\' Phone Number:</strong> ' . $student->parents_phone_number . '</li>
+                            <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Enrollment Date:</strong> ' . $student->enrollment_date . '</li>
+                        </ul>
                     </div>
                 </div>
-            </0 0.5iv>';
+            </div>
+        </div>';
 
         // Create PDF using dompdf
         $options = new Options();
