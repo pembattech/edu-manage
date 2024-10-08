@@ -1,7 +1,6 @@
 <x-app-layout>
     <div class="p-4 max-w-5xl mx-auto">
 
-
         <h1 class="bg-gray-100 w-full rounded-t-md text-3xl p-4 mb-4 text-center">Student Details</h1>
 
         <div class="flex flex-wrap justify-center items-center sm:px-48">
@@ -47,6 +46,13 @@
                         {{ $student->parents_phone_number }}</li>
                     <li><strong class="font-semibold text-black">Enrollment Date:</strong>
                         {{ $student->enrollment_date }}</li>
+                </ul>
+
+                <p class="font-semibold text-black mt-4">Courses:</p>
+                <ul class="list-none ps-4">
+                    @foreach ($student->courses as $course)
+                        <li class="text-black">{{ Str::title(str_replace('-', ' ', $course->course_name)) }} Course</li> <!-- Capitalize first letter and replace hyphens -->
+                    @endforeach
                 </ul>
             </div>
 

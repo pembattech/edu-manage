@@ -1,8 +1,8 @@
-!student_profile_pictures/.gitignore
+!student_profile_pictures/.
 
 /.phpunit.cache
 /node_modules
-/public/build
+# /public/build
 /public/hot
 /public/storage
 /storage/*.key

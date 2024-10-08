@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Student;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 
 class StudentController extends Controller
@@ -56,18 +58,37 @@ class StudentController extends Controller
             'profession' => 'required|string|max:100',
             'parents_phone_number' => 'required|string|max:15',
             'enrollment_date' => 'required|date',
+            'courses' => 'required|array', // Ensure it's an array
+            'courses.*' => 'in:programming-computer,office_package-computer,video_editing-computer,graphic_designing-computer,networking-computer,web_designing-computer,account_package-computer,english-language,japanese-language,korean-language,chinese-language,ielts-english_language,pte-english_language', // Validate each selected course
 
         ]);
-
 
         // Handle profile picture upload
         if ($request->hasFile('profile_picture')) {
             $imageName = time() . '.' . $request->profile_picture->extension();
             $request->profile_picture->move(public_path('assets/student_profile_pictures'), $imageName);
             $validatedData['profile_picture'] = $imageName;
+
+            // // Store the image path in the session to retain it on validation failure
+            // session()->put('profile_picture', 'assets/student_profile_pictures/' . $imageName);
         }
 
-        Student::create($validatedData);
+        $student = Student::create($validatedData);
+
+        // if ($student) {
+        //     // Remove the profile picture from the session after successful submission
+        //     session()->forget('profile_picture');
+        // }
+
+        // Extract the selected courses
+        $selectedCourses = $validatedData['courses'] ?? [];
+
+        foreach ($selectedCourses as $course) {
+            Course::create([
+                'student_id' => $student->id,
+                'course_name' => $course,
+            ]);
+        }
 
         return redirect()->route('students.index')->with('success', 'Student created successfully.');
     }
@@ -80,6 +101,10 @@ class StudentController extends Controller
      */
     public function show(Student $student)
     {
+
+        // Eager load the courses associated with the student
+        $student->load('courses');
+
         return view('students.show', compact('student'));
     }
 
@@ -91,6 +116,7 @@ class StudentController extends Controller
      */
     public function edit(Student $student)
     {
+
         return view('students.edit', compact('student'));
     }
 
@@ -178,14 +204,14 @@ class StudentController extends Controller
                 <div style="display: flex; padding-left: 4px; padding-right: 4px;">
                     <!-- Profile Picture -->';
 
-                if ($base64Image) {
-                    $html .= '
+        if ($base64Image) {
+            $html .= '
                     <div style="width: 12rem; height: auto; flex-shrink: 0; margin-left: 16px;">
                         <img style="width: 100%; height: auto;" src="' . $base64Image . '" alt="Profile Picture">
                     </div>';
-                }
+        }
 
-                $html .= '
+        $html .= '
                     <div style="flex-grow: 1;">
                         <ul style="list-style: none; padding-left: 0;">
                             <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Full Name:</strong> ' . $student->fullname . '</li>
@@ -201,8 +227,21 @@ class StudentController extends Controller
                             <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Parents\' Phone Number:</strong> ' . $student->parents_phone_number . '</li>
                             <li style="font-size: 18px;"><strong style="font-weight: 600; line-height: 3rem; color: black;">Enrollment Date:</strong> ' . $student->enrollment_date . '</li>
                         </ul>
-                    </div>
+
+                        <p style="font-size: 18px; font-weight: 600; color: black;">Courses:</p>
+                        <ul style="list-style: none; padding-left: 20px;">';
+
+        // Add course list
+        foreach ($student->courses as $course) {
+            $html .= '<li style="margin-bottom: 1rem;">' . Str::title(str_replace('-', ' ', $course->course_name)) . '</li>'; // Format course name
+        }
+
+        $html .= '
+            </ul>
                 </div>
+            </div>
+
+          
             </div>
         </div>';
 

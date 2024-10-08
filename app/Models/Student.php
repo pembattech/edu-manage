@@ -25,4 +25,10 @@ class Student extends Model
         'parents_phone_number',
         'enrollment_date',
     ];
+
+      // Define the relationship to the Course model
+      public function courses()
+      {
+          return $this->hasMany(Course::class, 'student_id');
+      }
 }

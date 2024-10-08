@@ -18,8 +18,13 @@
                             <div class="text-base text-red-600">{{ $message }}</div>
                         @enderror
 
-                        <div id="imagePreview" class="mt-2 object-cover hidden">
-                            <img src="" alt="Profile Picture" class="w-24 h-24 rounded-full">
+                        {{-- <div id="imagePreview" class="mt-2 hidden">
+                            <img src="" alt="Profile Picture" class="object-cover w-24 h-24 rounded-full">
+                        </div> --}}
+
+                        <div id="imagePreview" class="mt-2 {{ session('profile_picture') ? '' : 'hidden' }}">
+                            <img src="{{ session('profile_picture') ? asset(session('profile_picture')) : '' }}"
+                                alt="Profile Picture" class="object-cover w-24 h-24 rounded-full">
                         </div>
                     </div>
 
@@ -124,29 +129,88 @@
                     </div>
 
                     <div class="py-2">
-                    <p>Select Computer Course</p>
-                    <ul
-                        class="items-center w-full text-sm font-medium text-gray-900 bg-gray-50 border border-gray-200 rounded-lg sm:flex">
-                        <!-- Computer Courses -->
-                        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
-                            <div class="flex items-center ps-3">
-                                <input id="programming-checkbox" type="checkbox" name="courses[]" value="programming"
-                                    class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
-                                <label for="programming-checkbox"
-                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Programming</label>
-                            </div>
-                        </li>
-                        <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
-                            <div class="flex items-center ps-3">
-                                <input id="database-checkbox" type="checkbox" name="courses[]" value="database"
-                                    class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
-                                <label for="database-checkbox"
-                                    class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Database</label>
-                            </div>
-                        </li>
+                        <p>Select Computer Course</p>
+                        <ul
+                            class="items-center w-full text-sm font-medium text-gray-900 bg-gray-50 border border-gray-200 rounded-lg sm:flex">
+                            <!-- Computer Courses -->
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="programming-checkbox" type="checkbox" name="courses[]"
+                                        value="programming-computer"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="programming-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Programming</label>
+                                </div>
+                            </li>
 
-                    </ul>
-                </div>
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="office_package-checkbox" type="checkbox" name="courses[]"
+                                        value="office_package-computer"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="office_package-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Office
+                                        Package</label>
+                                </div>
+                            </li>
+
+
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="video_editing-checkbox" type="checkbox" name="courses[]"
+                                        value="video_editing-computer"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="video_editing-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Video
+                                        Editing</label>
+                                </div>
+                            </li>
+
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="graphic_designing-checkbox" type="checkbox" name="courses[]"
+                                        value="graphic_designing-computer"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="graphic_designing-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Graphic
+                                        Designing</label>
+                                </div>
+                            </li>
+
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="networking-checkbox" type="checkbox" name="courses[]"
+                                        value="networking-computer"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="networking-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Networking</label>
+                                </div>
+                            </li>
+
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="web_designing-checkbox" type="checkbox" name="courses[]"
+                                        value="web_designing-computer"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="web_designing-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Web
+                                        Designing</label>
+                                </div>
+                            </li>
+
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="account_package-checkbox" type="checkbox" name="courses[]"
+                                        value="account_package-computer"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="account_package-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Account
+                                        Package</label>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
 
                     <div class="py-2">
                         <p>Select Language Class</p>
@@ -156,7 +220,8 @@
                             <!-- Language Courses -->
                             <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
                                 <div class="flex items-center ps-3">
-                                    <input id="english-checkbox" type="checkbox" name="courses[]" value="english"
+                                    <input id="english-checkbox" type="checkbox" name="courses[]"
+                                        value="english-language"
                                         class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
                                     <label for="english-checkbox"
                                         class="w-full py-3 ms-2 text-sm font-medium text-gray-900">English</label>
@@ -164,7 +229,8 @@
                             </li>
                             <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
                                 <div class="flex items-center ps-3">
-                                    <input id="japanese-checkbox" type="checkbox" name="courses[]" value="japanese"
+                                    <input id="japanese-checkbox" type="checkbox" name="courses[]"
+                                        value="japanese-language"
                                         class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
                                     <label for="japanese-checkbox"
                                         class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Japanese</label>
@@ -172,10 +238,51 @@
                             </li>
                             <li class="w-full">
                                 <div class="flex items-center ps-3">
-                                    <input id="korean-checkbox" type="checkbox" name="courses[]" value="korean"
+                                    <input id="korean-checkbox" type="checkbox" name="courses[]"
+                                        value="korean-language"
                                         class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
                                     <label for="korean-checkbox"
                                         class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Korean</label>
+                                </div>
+                            </li>
+                            <li class="w-full">
+                                <div class="flex items-center ps-3">
+                                    <input id="chinese-checkbox" type="checkbox" name="courses[]"
+                                        value="chinese-language"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="chinese-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Chinese</label>
+                                </div>
+                            </li>
+                        </ul>
+                        @error('courses')
+                            <!-- Change this to 'courses' -->
+                            <div class="text-base text-red-600">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="py-2">
+                        <p>Select English Language Proficiency Test Class</p>
+                        <ul
+                            class="items-center w-full text-sm font-medium text-gray-900 bg-gray-50 border border-gray-200 rounded-lg sm:flex">
+
+                            <!-- Language Courses -->
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="ielts-checkbox" type="checkbox" name="courses[]"
+                                        value="ielts-english_language"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="ielts-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">IELTS</label>
+                                </div>
+                            </li>
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="pte-checkbox" type="checkbox" name="courses[]"
+                                        value="pte-english_language"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="pte-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">PTE</label>
                                 </div>
                             </li>
                         </ul>

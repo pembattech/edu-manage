@@ -197,6 +197,73 @@
 
                     </div>
 
+                    <div class="py-2">
+                        <p>Select Computer Course</p>
+                        <ul
+                            class="items-center w-full text-sm font-medium text-gray-900 bg-gray-50 border border-gray-200 rounded-lg sm:flex">
+                            <!-- Computer Courses -->
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="programming-checkbox" type="checkbox" name="courses[]"
+                                        value="programming-computer"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="programming-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Programming</label>
+                                </div>
+                            </li>
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="database-checkbox" type="checkbox" name="courses[]"
+                                        value="database-computer"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="database-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Database</label>
+                                </div>
+                            </li>
+
+                        </ul>
+                        @error('courses')
+                            <!-- Change this to 'courses' -->
+                            <div class="text-base text-red-600">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="py-2">
+                        <p>Select Language Class</p>
+                        <ul
+                            class="items-center w-full text-sm font-medium text-gray-900 bg-gray-50 border border-gray-200 rounded-lg sm:flex">
+
+                            <!-- Language Courses -->
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="english-checkbox" type="checkbox" name="courses[]"
+                                        value="english-language"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="english-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">English</label>
+                                </div>
+                            </li>
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
+                                <div class="flex items-center ps-3">
+                                    <input id="japanese-checkbox" type="checkbox" name="courses[]"
+                                        value="japanese-language"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="japanese-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Japanese</label>
+                                </div>
+                            </li>
+                            <li class="w-full">
+                                <div class="flex items-center ps-3">
+                                    <input id="korean-checkbox" type="checkbox" name="courses[]"
+                                        value="korean-language"
+                                        class="w-4 h-4 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500">
+                                    <label for="korean-checkbox"
+                                        class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Korean</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
                     <div class="pt-2">
                         <button type="submit"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 focus:outline-none">Update</button>
