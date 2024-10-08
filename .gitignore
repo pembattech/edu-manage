@@ -1,5 +1,5 @@
-!student_profile_pictures/.
-
+/public/assets/student_profile_pictures/*
+/public/assets/student_profile_pictures/.gitkeep
 /.phpunit.cache
 /node_modules
 # /public/build
