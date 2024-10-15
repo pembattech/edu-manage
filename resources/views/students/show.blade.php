@@ -48,12 +48,17 @@
                         {{ $student->enrollment_date }}</li>
                 </ul>
 
-                <p class="font-semibold text-black mt-4">Courses:</p>
-                <ul class="list-none ps-4">
-                    @foreach ($student->courses as $course)
-                        <li class="text-black">{{ Str::title(str_replace('-', ' ', $course->course_name)) }} Course</li> <!-- Capitalize first letter and replace hyphens -->
-                    @endforeach
-                </ul>
+                <p class="font-semibold text-black mt-4 inline-flex">Courses:</p>
+                @if ($student->courses && $student->courses->count() > 0)
+                    <ul class="list-none ps-4">
+                        @foreach ($student->courses as $course)
+                            <li class="text-black">{{ Str::title(str_replace(['-', '_'], ' ', $course->course_name)) }} Course
+                            </li> <!-- Capitalize first letter and replace hyphens -->
+                        @endforeach
+                    </ul>
+                    @else
+                        <p>N/A</p>
+                @endif
             </div>
 
         </div>

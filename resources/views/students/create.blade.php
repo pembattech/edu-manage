@@ -18,10 +18,6 @@
                             <div class="text-base text-red-600">{{ $message }}</div>
                         @enderror
 
-                        {{-- <div id="imagePreview" class="mt-2 hidden">
-                            <img src="" alt="Profile Picture" class="object-cover w-24 h-24 rounded-full">
-                        </div> --}}
-
                         <div id="imagePreview" class="mt-2 {{ session('profile_picture') ? '' : 'hidden' }}">
                             <img src="{{ session('profile_picture') ? asset(session('profile_picture')) : '' }}"
                                 alt="Profile Picture" class="object-cover w-24 h-24 rounded-full">
@@ -236,7 +232,7 @@
                                         class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Japanese</label>
                                 </div>
                             </li>
-                            <li class="w-full">
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
                                 <div class="flex items-center ps-3">
                                     <input id="korean-checkbox" type="checkbox" name="courses[]"
                                         value="korean-language"
@@ -245,7 +241,7 @@
                                         class="w-full py-3 ms-2 text-sm font-medium text-gray-900">Korean</label>
                                 </div>
                             </li>
-                            <li class="w-full">
+                            <li class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r">
                                 <div class="flex items-center ps-3">
                                     <input id="chinese-checkbox" type="checkbox" name="courses[]"
                                         value="chinese-language"
